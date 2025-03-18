@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Dashboard</title>
+    <link rel="icon" href="western_logo.ico" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        .top-stripe {
+            background: #f7f7f7;
+            height: 100px; /* Increase height slightly */
+            width: 100%;
+            position: relative; /* Ensure it is positioned correctly */
+            z-index: 10; /* Make sure it stays above other elements */
+            padding: 15px;
+        }
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #4F2683;
+            color: white;
+            padding: 20px;
+        }
+        .top-stripe img {
+            height: 60px;
+        }
+        .top-bar select {
+            background: #fff;
+            color: black;
+            border: none;
+            padding: 5px;
+            font-size: 14px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 2fr;
+            flex-grow: 1;
+            gap: 10px;
+            padding: 10px;
+            width: 99%;
+            height: 100%;
+        }
+        .section {
+            border: 1px solid #f3f3f3;
+            padding: 10px;
+            background: #ffffff;
+            overflow: auto;
+        }
+        .scrollable-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            background: #4B0082;
+            padding: 10px;
+        }
+        .footer button {
+            background: white;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-stripe">
+        <img src="westernlogo.svg" alt="Western Logo">
+    </div>
+    <div class="top-bar">
+        <label>Quiet Mode:
+            <select id="quietMode">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+                <option value="partial">Partial</option>
+            </select>
+        </label>
+        <label>Anonymous Mode:
+            <select id="anonymousMode">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+            </select>
+        </label>
+        <label>Font Size:
+            <select id="fontSize">
+                <option value="small">Small</option>
+                <option value="medium" selected>Medium</option>
+                <option value="big">Big</option>
+            </select>
+        </label>
+    </div>
+    <div class="container">
+        <div class="section" id="stats">
+            <h3>Classroom Stats</h3>
+            <p>Students Logged In: <span id="studentsLogged">25</span></p>
+            <p>Current Hands Raised: <span id="handsRaised">3</span></p>
+            <p>Unique Hands Raised: <span id="uniqueHands">10</span></p>
+        </div>
+        <div class="section" id="student-list">
+            <h3>Student List</h3>
+            <div class="scrollable-list">
+                <ul>
+                    <li>Student 1</li>
+                    <li>Student 2</li>
+                    <li>Student 3</li>
+                    <li>Student 4</li>
+                    <li>Student 5</li>
+                    <li>Student 6</li>
+                </ul>
+            </div>
+        </div>
+        <div class="section" id="response-table">
+            <h3>Student Responses</h3>
+            <table>
+                <tr>
+                    <th>Option</th>
+                    <th>Number of Students</th>
+                    <th>Percentage</th>
+                </tr>
+                <tr>
+                    <td>A</td>
+                    <td>8</td>
+                    <td>32%</td>
+                </tr>
+                <tr>
+                    <td>B</td>
+                    <td>10</td>
+                    <td>40%</td>
+                </tr>
+                <tr>
+                    <td>C</td>
+                    <td>5</td>
+                    <td>20%</td>
+                </tr>
+                <tr>
+                    <td>D</td>
+                    <td>2</td>
+                    <td>8%</td>
+                </tr>
+            </table>
+        </div>
+        <div class="section" id="chart-section">
+            <canvas id="responseChart"></canvas>
+        </div>
+    </div>
+    <div class="footer">
+        <button id="clearButton">Clear</button>
+        <button id="helpButton">Help</button>
+    </div>
+    <script>
+        const ctx = document.getElementById('responseChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['A', 'B', 'C', 'D'],
+                datasets: [{
+                    label: false,
+                    data: [8, 10, 5, 2],
+                    backgroundColor: ['red', 'green', 'orange', 'blue']
+                }]
+            },
+            options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false // Hides the label
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
